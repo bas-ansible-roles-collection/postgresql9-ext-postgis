@@ -11,7 +11,7 @@ PostGIS extension for PostgreSQL to enable geospatial functions
  
 ## Overview
  
-* ...
+* Installs PostGIS extension into to PostgreSQL server instance
  
 ## Quality Assurance
  
