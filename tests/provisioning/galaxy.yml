@@ -24,3 +24,4 @@
 
 # Top level roles
 - src: bas-ansible-roles-collection.system-core
+- src: bas-ansible-roles-collection.postgresql9-server
