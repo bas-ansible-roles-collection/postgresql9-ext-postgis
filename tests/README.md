@@ -1,5 +1,4 @@
-
-PostgreSQL 9 Ext PostGIS (postgresql9-ext-postgis) - Testing
+# PostgreSQL 9 Extension PostGIS (postgresql9-ext-postgis) - Testing
 
 ## Overview
 

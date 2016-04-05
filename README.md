@@ -1,4 +1,4 @@
-# PostgreSQL 9 Ext PostGIS (postgresql9-ext-postgis)
+# PostgreSQL 9 Extension PostGIS (postgresql9-ext-postgis)
  
 Master: [![Build Status](https://semaphoreci.com/api/v1/bas-ansible-roles-collection/postgresql9-ext-postgis/branches/master/badge.svg)](https://semaphoreci.com/bas-ansible-roles-collection/postgresql9-ext-postgis)
 Develop: [![Build Status](https://semaphoreci.com/api/v1/bas-ansible-roles-collection/postgresql9-ext-postgis/branches/develop/badge.svg)](https://semaphoreci.com/bas-ansible-roles-collection/postgresql9-ext-postgis)

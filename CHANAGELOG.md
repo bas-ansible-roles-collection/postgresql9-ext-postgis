@@ -1,4 +1,4 @@
-# PostgreSQL 9 Ext PostGIS (postgresql9-ext-postgis) - Change log
+# PostgreSQL 9 Extension PostGIS (postgresql9-ext-postgis) - Change log
  
 All notable changes to this role will be documented in this file.
 This role adheres to [Semantic Versioning](
