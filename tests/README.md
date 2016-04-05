@@ -22,6 +22,7 @@ The *Testing* environment tests a single scenario:
 The *Local Testing* environment tests multiple scenarios:
 
 1. ...
+2. Tests PostGIS extension is available within PostgreSQL server instance installed from system-only sources
 
 **Note:** *Local Testing* environments test scenarios on all operating systems this role supports. Services providing
 *Testing* environments may limit which operating system are available (e.g. SemaphoreCI only supports Ubuntu Trusty).
