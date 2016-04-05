@@ -17,11 +17,11 @@ multiple environments.
 
 The *Testing* environment tests a single scenario:
 
-* Tests PostGIS extension is available within PostgreSQL server instance
+* Tests PostGIS extension is available within PostgreSQL server instance installed from non-system sources
 
 The *Local Testing* environment tests multiple scenarios:
 
-1. ...
+1. Tests PostGIS extension is available within PostgreSQL server instance installed from non-system sources
 2. Tests PostGIS extension is available within PostgreSQL server instance installed from system-only sources
 
 **Note:** *Local Testing* environments test scenarios on all operating systems this role supports. Services providing
