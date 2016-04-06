@@ -78,7 +78,7 @@ https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Role-Ma
 ### PostGIS version
 
 Depending on the operating system used, the version of PostGIS installed will differ, though it will be at least
-PostGIS *2.1*, and not greater than the last PostGIS 2 series release. The table below hopes to clarify the
+PostGIS *2.0*, and not greater than the last PostGIS 2 series release. The table below hopes to clarify the
 version you can expect:
 
 | Operating System | Non-System Package Sources Permitted | PostGIS version | Notes |
@@ -86,9 +86,10 @@ version you can expect:
 | Ubuntu           | Yes                                  | *2.2*           | -     |
 | Ubuntu           | No                                   | *2.1*           | -     |
 | CentOS           | Yes                                  | *2.2*           | -     |
+| CentOS           | No                                   | *2.0*           | -     |
 
 Because the exact version installed cannot be guaranteed by this role, you should be careful if using depending on this
-role in another role or a project that relies on PostGIS. If any version of the client greater than 2.1 and less
+role in another role or a project that relies on PostGIS. If any version of the client greater than 2.0 and less
 than 3.0, is acceptable this role is suitable, however where you depend on some feature added to minor releases (e.g.
 *2.2*) this role is unsuitable.
 
