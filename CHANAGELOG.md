@@ -7,7 +7,7 @@ Remember: Make sure to update postgresql9_ext_postgis_barc_role_version variable
  
 ## [Unreleased][unreleased]
  
-## ## 0.1.0 - 06/04/2016
+## 0.1.0 - 06/04/2016
 
 ### Added
  
