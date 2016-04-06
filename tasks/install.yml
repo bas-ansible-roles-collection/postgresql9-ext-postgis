@@ -1,0 +1,46 @@
+---
+# Install PostGIS PostgreSQL extension system package
+
+# If using non-system sources (preferred)
+
+- name: install postgis extension system package from non-system sources - CentOS
+  yum:
+             pkg={{ item }}
+    update_cache=yes
+           state=present
+  with_items:
+    - postgis2_95
+  when: ansible_distribution == "CentOS" and
+    (BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True')
+
+- name: install postgis extension system package from non-system sources - Ubuntu
+  apt:
+             pkg={{ item }}
+    update_cache=yes
+           state=present
+  with_items:
+    - postgresql-9.5-postgis-2.2
+  when: ansible_distribution == "Ubuntu" and
+    (BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True')
+
+# If using system-sources only
+
+- name: install postgis extension system package from system-only sources - CentOS
+  yum:
+             pkg={{ item }}
+    update_cache=yes
+           state=present
+  with_items:
+    - postgis
+  when: ansible_distribution == "CentOS" and
+    (BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False')
+
+- name: install postgis extension system package from system-only sources - Ubuntu
+  apt:
+             pkg={{ item }}
+    update_cache=yes
+           state=present
+  with_items:
+    - postgresql-9.3-postgis-2.1
+  when: ansible_distribution == "Ubuntu" and
+    (BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False')

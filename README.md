@@ -1,4 +1,4 @@
-# PostgreSQL 9 Ext PostGIS (postgresql9-ext-postgis)
+# PostgreSQL 9 Extension PostGIS (postgresql9-ext-postgis)
  
 Master: [![Build Status](https://semaphoreci.com/api/v1/bas-ansible-roles-collection/postgresql9-ext-postgis/branches/master/badge.svg)](https://semaphoreci.com/bas-ansible-roles-collection/postgresql9-ext-postgis)
 Develop: [![Build Status](https://semaphoreci.com/api/v1/bas-ansible-roles-collection/postgresql9-ext-postgis/branches/develop/badge.svg)](https://semaphoreci.com/bas-ansible-roles-collection/postgresql9-ext-postgis)
@@ -11,7 +11,7 @@ PostGIS extension for PostgreSQL to enable geospatial functions
  
 ## Overview
  
-* ...
+* Installs PostGIS extension system package for use within PostgreSQL databases
  
 ## Quality Assurance
  
@@ -19,7 +19,8 @@ This role uses manual and automated testing to ensure its features work as adver
  
 ## Dependencies
  
-* None
+* [**bas-ansible-roles-collection.postgresql9-server**](https://galaxy.ansible.com/bas-ansible-roles-collection/postgresql9-server/)
+  * Minimum version: *0.1.0*
  
 More information on role dependencies is available in the 
 [BARC General Documentation](
@@ -35,7 +36,23 @@ https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Role-re
  
 ## Limitations
  
-* None
+* The PostGIS version varies depending on which operating system is used and if non-system package sources are permitted
+
+As the package policy varies between system and non-system package sources, and between operating systems, the version
+of PostGIS installed is variable between supported operating systems.
+
+For Ubuntu and CentOS machines, a non-system APT package is installed resulting in more recent versions of PostGIS to 
+be installed.
+
+It is a convention of BARC roles to use the latest version of packages. Where a suitable non-system package source is
+available it will be used. Otherwise system packages will be used. Suitable non-system packages require a reputable,
+maintainer, typically a company or well respected individual. Where non-system packages are used, the variable
+*BARC_use_non_system_package_sources* can be set to `false` to always use system packages if this is needed.
+
+*This limitation is **NOT** considered to be significant. Solutions will **NOT** be actively pursued.*
+*Pull requests addressing this limitation will be considered.*
+
+See [BARC-116](https://jira.ceh.ac.uk/browse/BARC-116) for further details.
  
 More information on role limitations is available in the 
 [BARC General Documentation](
@@ -58,6 +75,45 @@ More information is available in the
 [BARC General Documentation](
 https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Role-Manifest)
  
+### PostGIS version
+
+Depending on the operating system used, the version of PostGIS installed will differ, though it will be at least
+PostGIS *2.0*, and not greater than the last PostGIS 2 series release. The table below hopes to clarify the
+version you can expect:
+
+| Operating System | Non-System Package Sources Permitted | PostGIS version | Notes |
+| ---------------- | ------------------------------------ | --------------- | ----- |
+| Ubuntu           | Yes                                  | *2.2*           | -     |
+| Ubuntu           | No                                   | *2.1*           | -     |
+| CentOS           | Yes                                  | *2.2*           | -     |
+| CentOS           | No                                   | *2.0*           | -     |
+
+Because the exact version installed cannot be guaranteed by this role, you should be careful if using depending on this
+role in another role or a project that relies on PostGIS. If any version of the client greater than 2.0 and less
+than 3.0, is acceptable this role is suitable, however where you depend on some feature added to minor releases (e.g.
+*2.2*) this role is unsuitable.
+
+This ambiguity is considered a limitation, see the *limitations* section for more information.
+
+### Enabling PostgreSQL extensions
+
+Extensions are enabled on a per-database basis in PostgreSQL. As the *postgresql9-server* role, on
+which this role depends, does not support creating databases, tasks to enable this extension will need to be made
+outside of this role, using a task like the following:
+
+```yaml
+---
+- name: Enable postgis extension within app database 
+  postgresql_ext:
+    name=postgis
+      db=app
+  become_user: postgres
+```
+
+Note: This assumes a database 'app' has previously been created
+
+Note: Extensions, **SHOULD NOT** be enabled within the default *postgres* database.
+
 ### Typical playbook
  
 ```yaml
@@ -69,6 +125,24 @@ https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Role-Ma
   vars: []
   roles:
     - bas-ansible-roles-collection.postgresql9-ext-postgis
+  tasks:
+    - name: create a non-privileged postgresql role for an application
+      postgresql_user:
+        name="app"
+        password="password"
+        state=present
+      become_user: postgres
+    - name: create database for an application
+      postgresql_db:
+        name="app"
+        owner="app"
+        state=present
+      become_user: postgres
+    - name: Enable postgis extension within app database 
+      postgresql_ext:
+        name="postgis"
+        db="app"
+      become_user: postgres
 ```
  
 ### Tags

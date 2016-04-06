@@ -1,6 +1,11 @@
 ---
-# ...
+# Installs PostGIS PostgreSQL extension system package
 
 - include: register-role.yml
   tags:
     - BARC_ROLE_REGISTRATION
+
+- include: install.yml
+  tags:
+    - BARC_INSTALL
+    - BARC_INSTALL_PACKAGES

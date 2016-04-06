@@ -1,5 +1,4 @@
-
-PostgreSQL 9 Ext PostGIS (postgresql9-ext-postgis) - Testing
+# PostgreSQL 9 Extension PostGIS (postgresql9-ext-postgis) - Testing
 
 ## Overview
 
@@ -17,11 +16,12 @@ multiple environments.
 
 The *Testing* environment tests a single scenario:
 
-* Tests PostGIS extension is available within PostgreSQL server instance
+* Tests PostGIS extension is available within PostgreSQL server instance installed from non-system sources
 
 The *Local Testing* environment tests multiple scenarios:
 
-1. ...
+1. Tests PostGIS extension is available within PostgreSQL server instance installed from non-system sources
+2. Tests PostGIS extension is available within PostgreSQL server instance installed from system-only sources
 
 **Note:** *Local Testing* environments test scenarios on all operating systems this role supports. Services providing
 *Testing* environments may limit which operating system are available (e.g. SemaphoreCI only supports Ubuntu Trusty).
