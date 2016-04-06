@@ -1,5 +1,5 @@
 ---
-# Installs PostGIS PostgreSQL extension
+# Installs PostGIS PostgreSQL extension system package
 
 - include: register-role.yml
   tags:

@@ -11,7 +11,7 @@ PostGIS extension for PostgreSQL to enable geospatial functions
  
 ## Overview
  
-* Installs PostGIS extension into to PostgreSQL server instance
+* Installs PostGIS extension system package for use within PostgreSQL databases
  
 ## Quality Assurance
  
@@ -59,6 +59,25 @@ More information is available in the
 [BARC General Documentation](
 https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Role-Manifest)
  
+### Enabling PostgreSQL extensions
+
+Extensions are enabled on a per-database basis in PostgreSQL. As the *postgresql9-server* role, on
+which this role depends, does not support creating databases, tasks to enable this extension will need to be made
+outside of this role, using a task like the following:
+
+```yaml
+---
+- name: Enable postgis extension within app database 
+  postgresql_ext:
+    name=postgis
+      db=app
+  become_user: postgres
+```
+
+Note: This assumes a database 'app' has previously been created
+
+Note: Extensions, **SHOULD NOT** be enabled within the default *postgres* database.
+
 ### Typical playbook
  
 ```yaml
