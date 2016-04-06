@@ -125,6 +125,24 @@ Note: Extensions, **SHOULD NOT** be enabled within the default *postgres* databa
   vars: []
   roles:
     - bas-ansible-roles-collection.postgresql9-ext-postgis
+  tasks:
+    - name: create a non-privileged postgresql role for an application
+      postgresql_user:
+        name="app"
+        password="password"
+        state=present
+      become_user: postgres
+    - name: create database for an application
+      postgresql_db:
+        name="app"
+        owner="app"
+        state=present
+      become_user: postgres
+    - name: Enable postgis extension within app database 
+      postgresql_ext:
+        name="postgis"
+        db="app"
+      become_user: postgres
 ```
  
 ### Tags
