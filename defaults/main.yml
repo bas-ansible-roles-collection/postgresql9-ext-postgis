@@ -4,3 +4,5 @@
 # BARC specific variables
 postgresql9_ext_postgis_barc_role_name: postgresql9_ext_postgis
 postgresql9_ext_postgis_barc_role_version: 0.1.0
+
+BARC_use_non_system_package_sources: true

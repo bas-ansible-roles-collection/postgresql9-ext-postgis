@@ -36,7 +36,23 @@ https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Role-re
  
 ## Limitations
  
-* None
+* The PostGIS version varies depending on which operating system is used and if non-system package sources are permitted
+
+As the package policy varies between system and non-system package sources, and between operating systems, the version
+of PostGIS installed is variable between supported operating systems.
+
+For Ubuntu and CentOS machines, a non-system APT package is installed resulting in more recent versions of PostGIS to 
+be installed.
+
+It is a convention of BARC roles to use the latest version of packages. Where a suitable non-system package source is
+available it will be used. Otherwise system packages will be used. Suitable non-system packages require a reputable,
+maintainer, typically a company or well respected individual. Where non-system packages are used, the variable
+*BARC_use_non_system_package_sources* can be set to `false` to always use system packages if this is needed.
+
+*This limitation is **NOT** considered to be significant. Solutions will **NOT** be actively pursued.*
+*Pull requests addressing this limitation will be considered.*
+
+See [BARC-116](https://jira.ceh.ac.uk/browse/BARC-116) for further details.
  
 More information on role limitations is available in the 
 [BARC General Documentation](
@@ -59,6 +75,25 @@ More information is available in the
 [BARC General Documentation](
 https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Role-Manifest)
  
+### PostGIS version
+
+Depending on the operating system used, the version of PostGIS installed will differ, though it will be at least
+PostGIS *2.1*, and not greater than the last PostGIS 2 series release. The table below hopes to clarify the
+version you can expect:
+
+| Operating System | Non-System Package Sources Permitted | PostGIS version | Notes |
+| ---------------- | ------------------------------------ | --------------- | ----- |
+| Ubuntu           | Yes                                  | *2.2*           | -     |
+| Ubuntu           | No                                   | *2.1*           | -     |
+| CentOS           | Yes                                  | *2.2*           | -     |
+
+Because the exact version installed cannot be guaranteed by this role, you should be careful if using depending on this
+role in another role or a project that relies on PostGIS. If any version of the client greater than 2.1 and less
+than 3.0, is acceptable this role is suitable, however where you depend on some feature added to minor releases (e.g.
+*2.2*) this role is unsuitable.
+
+This ambiguity is considered a limitation, see the *limitations* section for more information.
+
 ### Enabling PostgreSQL extensions
 
 Extensions are enabled on a per-database basis in PostgreSQL. As the *postgresql9-server* role, on

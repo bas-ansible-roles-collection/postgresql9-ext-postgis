@@ -1,0 +1,58 @@
+---
+# Ensure PostGIS PostgreSQL extension system package installed correctly
+
+- name: determine if postgis extension system package is installed - CentOS
+  command: rpm -qa
+  changed_when: False
+  when: ansible_distribution == "CentOS"
+  register: postgresql9_ext_postgis_test_fact_postgis_package_is_installed_centos
+
+# If using non-system sources (preferred)
+
+- name: assert postgis extension system package is installed from non-system sources - CentOS
+  assert:
+    that:
+      - "'postgis2_95' in postgresql9_ext_postgis_test_fact_postgis_package_is_installed_centos.stdout"
+  when: ansible_distribution == "CentOS" and
+    (BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True')
+
+- name: determine if postgis extension system package is installed from non-system sources - Ubuntu
+  command: dpkg -s {{ item }}
+  with_items:
+    - postgresql-9.5-postgis-2.2
+  changed_when: False
+  when: ansible_distribution == "Ubuntu" and
+    (BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True')
+  register: postgresql9_ext_postgis_test_fact_postgis_package_is_installed_non_system_ubuntu
+- name: assert postgis extension system package is installed from non-system sources - Ubuntu
+  assert:
+    that:
+      - "'install ok installed' in item.stdout"
+  with_items: postgresql9_ext_postgis_test_fact_postgis_package_is_installed_non_system_ubuntu.results
+  when: ansible_distribution == "Ubuntu" and
+    (BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True')
+
+# If using system-sources only
+
+- name: assert postgis extension system package is installed from system-only sources - CentOS
+  assert:
+    that:
+      - "'postgis' in postgresql9_ext_postgis_test_fact_postgis_package_is_installed_centos.stdout"
+  when: ansible_distribution == "CentOS" and
+    (BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False')
+
+- name: determine if postgis extension system package is installed from system-only sources - Ubuntu
+  command: dpkg -s {{ item }}
+  with_items:
+    - postgresql-9.3-postgis-2.1
+  changed_when: False
+  when: ansible_distribution == "Ubuntu" and
+    (BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False')
+  register: postgresql9_ext_postgis_test_fact_postgis_package_is_installed_system_only_ubuntu
+- name: assert postgis extension system package is installed from system-only sources - Ubuntu
+  assert:
+    that:
+      - "'install ok installed' in item.stdout"
+  with_items: postgresql9_ext_postgis_test_fact_postgis_package_is_installed_system_only_ubuntu.results
+  when: ansible_distribution == "Ubuntu" and
+    (BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False')

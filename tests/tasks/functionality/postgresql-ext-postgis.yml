@@ -1,0 +1,42 @@
+---
+# Tests PostGIS PostgreSQL extension can be enabled within a database
+
+# Note: These functionality tests are cumulative - the database test relies on database users being created etc.
+
+- name: enable postgis extension within a database for an application
+  postgresql_ext:
+    name=postgis
+    db=app
+  become_user: postgres
+
+- name: list tables within application database
+  command: psql -d app -c "\dt"
+  changed_when: false
+  register: postgresql9_ext_postgis_test_app_database_tables
+  become_user: postgres
+
+- name: create a test table with a spatial column within a database for an application
+  command: psql -d app -c "CREATE TABLE geo (id SERIAL PRIMARY KEY, geom GEOMETRY(Point, 26910), name VARCHAR(128));"
+  when: "'geo' not in postgresql9_ext_postgis_test_app_database_tables.stdout"
+  become_user: postgres
+
+- name: create spatial index for geo column in test table within a database for an application
+  command: psql -d app -c "CREATE INDEX geo_gix ON geo USING GIST (geom);"
+  when: "'geo' not in postgresql9_ext_postgis_test_app_database_tables.stdout"
+  become_user: postgres
+
+- name: add point to test table within a database for an application
+  command: psql -d app -c "INSERT INTO geo (geom,name) VALUES (ST_GeomFromText('POINT(0 0)', 26910),'somewhere');"
+  when: "'geo' not in postgresql9_ext_postgis_test_app_database_tables.stdout"
+  become_user: postgres
+
+- name: run query to check spatial features working in test table within a database for an application
+  command: psql -d app -c "SELECT id, name FROM geo WHERE ST_DWithin(geom, ST_GeomFromText('POINT(0 0)', 26910), 1000);"
+  changed_when: false
+  register: postgresql9_ext_postgis_test_app_database_query_results
+  become_user: postgres
+
+- name: assert spatial features working in test table within a database for an application by running a spatial query
+  assert:
+    that:
+      - "'somewhere' in postgresql9_ext_postgis_test_app_database_query_results.stdout"

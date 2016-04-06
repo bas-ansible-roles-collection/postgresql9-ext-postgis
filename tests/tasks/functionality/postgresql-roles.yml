@@ -1,0 +1,11 @@
+---
+# Tests a non-privileged PostgreSQL role (user) can be created
+
+# Note: These functionality tests are cumulative - the database test relies on database users being created etc.
+
+- name: create a non-privileged postgresql role for an application
+  postgresql_user:
+               name="app"
+           password="{{ postgresql9_ext_postgis_test_testing_app_role_password }}"
+              state=present
+  become_user: postgres
